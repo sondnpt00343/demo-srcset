@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Image srcset attribute</title>
+        <!--
+        ## Trang web sử dụng ít hình ảnh (Tốc độ tải trang không bị ảnh hưởng nhiều bởi hình ảnh)
+            Tối ưu sử dụng hình ảnh trên trang web?
+                1. Sử dụng định dạng ảnh phù hợp? ✅
+                    - Hình học, vector, v.v: SVG
+                    - Bitmap transparent: PNG, WEBP
+                    - Bitmap không transparent: JPEG, WEBP
+                2. Nén hình ảnh (giảm dung lượng) ✅
+                    - https://tinypng.com/
+                3. Sử dụng kích thước ảnh phù hợp?
+                    - Original: 4000px x 4000px, Figma: 800px x 800px (CSS), Resize: 1600px x 1600px (2x),
+                    đáp ứng tốt cho cả màn hình PPI/DPI cao (retina)
+                    - PPI (Pixel per inch), DPI (Dots per inch): 100 DPI, 300 DPI
+
+            Loại màn hình:
+                1. Màn hình thường (DPI thấp - 1:1): 800px x 800px ✅, 1600px x 1600px ❌
+                2. Màn hình retina (DPI cao - 2:1): 800px x 800px ❌, 1600px x 1600px ✅
+
+        ## Trang web sử dụng nhiều hình ảnh
+            Thiết bị:
+                1. Mobile: 1600px x 1600px ❌ => Tốn băng thông, chờ lâu hơn => Giảm trải nghiệm 😥
+                2. Tablet: 1600px x 1600px ❌
+                3. Desktop: 1600px x 1600px ✅
+
+
+        ## Bài toán 1
+            1. Mobile: 50px x 50px
+            2. Tablet: 100px x 100px
+            3. Desktop: 200px x 200px
+
+        ## Bài toán 2
+            - Desktop: 200px x 200px
+
+        ## Bài toán 3
+            - Desktop: /img/ảnh-1.jpg
+            - Mobile: /img/ảnh-2.jpg
+        -->
+        <style>
+            body {
+                margin: 0;
+                padding: 20px 40px;
+                font-family: system-ui;
+            }
+
+            img {
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 1. Resolution switching: Different sizes -->
+        <h2>1. Resolution switching: Different sizes</h2>
+        <div>
+            <img
+                srcset="
+                    ./avatar-100x100.jpg 100w,
+                    ./avatar-200x200.jpg 200w,
+                    ./avatar-400x400.jpg 400w
+                "
+                sizes="(max-width: 575px) 100px, (max-width: 991px) 200px, 400px"
+                src="./avatar-400x400.jpg"
+                alt="Elva dressed as a fairy"
+            />
+        </div>
+
+        <!-- 2. Resolution switching: Same size, different resolutions -->
+        <h2>2. Resolution switching: Same size, different resolutions</h2>
+        <div>
+            <img
+                srcset="./avatar-200x200.jpg 1x, ./avatar-400x400.jpg 2x"
+                src="./avatar-400x400.jpg"
+                alt=""
+            />
+        </div>
+
+        <!-- 3. Art direction -->
+        <h2>3. Art direction</h2>
+        <div>
+            <picture>
+                <source media="(max-width: 575px)" srcset="./img-small.jpg" />
+                <img
+                    src="./img-large.jpg"
+                    alt="Chris standing up holding his daughter Elva"
+                />
+            </picture>
+        </div>
+    </body>
+</html>
